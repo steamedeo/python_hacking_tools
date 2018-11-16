@@ -37,11 +37,12 @@ def get_current_mac(interface):
     else:
         print('MAC address not found!')
 
+
 # get user arguments
 options = get_arguments()
 
 # show current mac
-current_mac = get_current_mac(options.interface])
+current_mac = get_current_mac(options.interface)
 print('Current MAC ' + str(current_mac))
 
 # change mac
@@ -55,4 +56,3 @@ if current_mac == options.new_mac:
     print('MAC address was changed to ' + current_mac)
 else:
     print('Could not change the MAC address')
-
