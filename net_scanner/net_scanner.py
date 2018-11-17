@@ -8,17 +8,18 @@ import optparse
 def get_arguments():
     parser = optparse.OptionParser()
     parser.add_option('-t', '--target', dest='target', help='Target IP or IP Range')
+    parser.add_option('-i', '--interface', dest='interface', help='The interface name used to scan')
     options, arguments = parser.parse_args()
     return options
 
 
 # sends ARP request to the network for a certain IP
-def scan(ip):
+def scan(ip, interface):
     arp_request = scapy.ARP(pdst=ip)
     broadcast = scapy.Ether(dst='ff:ff:ff:ff:ff:ff')  # broadcast MAC address
     arp_request_broadcast = broadcast/arp_request
     # send
-    answered_list = scapy.srp(arp_request_broadcast, timeout=1, verbose=False)[0]
+    answered_list = scapy.srp(arp_request_broadcast, timeout=1, verbose=False, iface=interface)[0]
 
     clients_list = []
     for element in answered_list:
@@ -38,6 +39,6 @@ def print_result(results_list):
 
 
 options = get_arguments()
-scan_result = scan(options.target)
+scan_result = scan(options.target, options.interface)
 print_result(scan_result)
 
